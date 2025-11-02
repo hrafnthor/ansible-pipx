@@ -1,0 +1,9 @@
+- name: "HTH | PipX | Install via distribution package manager"
+  ansible.builtin.include_tasks: distribution/main.yml
+  when:
+    - pipx.install.distribution is defined
+
+- name: "HTH | PipX | Install via archive releases"
+  ansible.builtin.include_tasks: archive/main.yml
+  when:
+    - pipx.install.archive is defined

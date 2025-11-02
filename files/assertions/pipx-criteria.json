@@ -1,0 +1,134 @@
+{
+    "title": "pipx",
+    "description": "schema for pipx configuration",
+    "type": "object",
+    "properties":
+    {
+        "install":
+        {
+            "type": "object",
+            "properties":
+            {
+                "distribution":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "version":
+                        {
+                            "$ref": "#/definitions/non-empty-string"
+                        },
+                        "remove":
+                        {
+                            "type": "boolean"
+                        }
+                    },
+                    "minProperties": 1,
+                    "additionalProperties": false
+                },
+                "archive":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "default":
+                        {
+                            "$ref": "#/definitions/non-empty-string"
+                        },
+                        "versions":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "version":
+                                    {
+                                        "$ref": "#/definitions/non-empty-string"
+                                    },
+                                    "checksum":
+                                    {
+                                        "$ref": "#/definitions/non-empty-string"
+                                    },
+                                    "remove":
+                                    {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "required":
+                                [
+                                    "version",
+                                    "checksum"
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "oneOf":
+            [
+                {
+                    "required":
+                    [
+                        "distribution"
+                    ]
+                },
+                {
+                    "required":
+                    [
+                        "archive"
+                    ]
+                }
+            ]
+        },
+        "packages":
+        {
+            "type": "array",
+            "items":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "name":
+                    {
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "version":
+                    {
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "remove":
+                    {
+                        "type": "boolean"
+                    },
+                    "force":
+                    {
+                        "type": "boolean"
+                    }
+                },
+                "required":
+                [
+                    "name"
+                ]
+            }
+        }
+    },
+    "definitions":
+    {
+        "non-empty-string":
+        {
+            "type": "string",
+            "minLength": 1
+        },
+        "non-empty-string-array":
+        {
+            "type": "array",
+            "minItems": 1,
+            "items":
+            {
+                "$ref": "#/definitions/non-empty-string"
+            }
+        }
+    }
+}

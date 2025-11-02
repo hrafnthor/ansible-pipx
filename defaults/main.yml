@@ -1,0 +1,14 @@
+# Default destination to where pipx archives will be extracted
+hth_pipx_archive_destination_path: "/opt/pipx"
+
+# Default owner of the archive destination path
+hth_pipx_archive_destination_path_owner: "root"
+
+# Default group of the archive destination path
+hth_pipx_archive_destination_path_group: "root"
+
+# Default mode of the archive destination path
+hth_pipx_archive_destination_path_mode: "0755"
+
+# Default path to symlink default pipx version to
+hth_pipx_default_artifact_link_path: "/usr/bin/pipx"

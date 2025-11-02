@@ -1,0 +1,48 @@
+- name: "HTH | PipX | Determine if version is already present"
+  ansible.builtin.set_fact:
+    hth_pipx_version_present: "{{ archive.version in hth_pipx_version.stdout }}"
+
+- name: "HTH | Pipx | Set version extraction path"
+  ansible.builtin.set_fact:
+    hth_pipx_version_path: "{{ hth_pipx_archive_destination_path }}/{{ archive.version }}"
+  when:
+    - not hth_pipx_version_present
+
+- name: "HTH | PipX | Ensure version extraction path"
+  ansible.builtin.file:
+    path: "{{ hth_pipx_version_path }}"
+    owner: "{{ hth_pipx_archive_destination_path_owner }}"
+    group: "{{ hth_pipx_archive_destination_path_group }}"
+    mode: "{{ hth_pipx_archive_destination_path_mode }}"
+    state: directory
+  when:
+    - not hth_pipx_version_present
+
+- name: "HTH | PipX | Set version archive name"
+  ansible.builtin.set_fact:
+    hth_pipx_version_archive_name: "pipx.pyz"
+  when:
+    - not hth_pipx_version_present
+
+- name: "HTH | PipX | Set version archive path"
+  ansible.builtin.set_fact:
+    hth_pipx_version_archive_path: "{{ hth_pipx_version_path }}/{{ hth_pipx_version_archive_name }}"
+  when:
+    - not hth_pipx_version_present
+
+- name: "HTH | Pipx | Check for prior version archive"
+  ansible.builtin.stat:
+    path: "{{ hth_pipx_version_path }}/{{ hth_pipx_version_archive_name }}"
+  register: hth_pipx_archive_version_stat
+  when:
+    - not hth_pipx_version_present
+
+- name: "HTH | PipX | Download version archive"
+  ansible.builtin.get_url:
+    url: "https://github.com/pypa/pipx/releases/download/{{ archive.version }}/pipx.pyz"
+    dest: "{{ hth_pipx_version_archive_path }}"
+    checksum: "{{ archive.checksum }}"
+  register: hth_pipx_archive_download_state
+  when:
+    - not hth_pipx_version_present
+    - not hth_pipx_archive_version_stat.stat.exists

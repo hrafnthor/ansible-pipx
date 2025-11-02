@@ -1,0 +1,4 @@
+- name: "HTH | PipX | Install pipx via apt"
+  ansible.builtin.apt:
+    name: "{{ 'pipx=' + pipx.install.distribution.version if (pipx.install.distribution.version is defined and pipx.install.distribution.version != 'latest') else 'pipx' }}"
+    state:  "{{ 'absent' if (pipx.install.distribution.remove is defined and pipx.install.distribution.remove) else 'present' if pipx.install.distribution.version is defined and pipx.install.distribution.version != 'latest' else 'latest' }}"

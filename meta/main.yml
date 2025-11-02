@@ -1,0 +1,19 @@
+galaxy_info:
+  author: Hrafn Thorvaldsson
+  description: An Ansible role for installing pipx and packages
+  company: hth
+
+  license: Apache2
+
+  role_name: ansible_pipx
+  namespace: ansible_pipx
+
+  min_ansible_version: 2.14
+
+  platforms:
+    - name: Ubuntu
+
+  galaxy_tags:
+    - pipx
+
+dependencies: []
