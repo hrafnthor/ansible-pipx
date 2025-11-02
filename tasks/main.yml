@@ -1,0 +1,25 @@
+- name: "HTH | PipX | Assert input variables"
+  ansible.utils.validate:
+    data: "{{ pipx }}"
+    criteria: "{{ lookup('file', 'assertions/pipx-criteria.json') | from_json }}"
+    engine: ansible.utils.jsonschema
+  run_once: yes
+  delegate_to: localhost
+
+- name: "HTH | PipX | Install"
+  ansible.builtin.include_tasks: install/main.yml
+  register: hth_pipx_install_output
+  when:
+    - pipx.install is defined
+
+- name: "HTH | PipX | Ensure global scope"
+  ansible.builtin.command: pipx ensurepath --global
+  when:
+
+- name: "HTH | PipX | Manage package"
+  ansible.builtin.include_tasks: package.yml
+  loop: "{{ pipx.packages }}"
+  loop_control:
+    loop_var: package
+  when:
+    - pipx.packages is defined

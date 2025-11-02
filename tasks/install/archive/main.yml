@@ -1,0 +1,66 @@
+- name: "HTH | PipX | Check for current version"
+  ansible.builtin.command: pipx --version
+  ignore_errors: true
+  register: hth_pipx_version
+
+- name: "HTH | PipX | Ensure program extraction path"
+  ansible.builtin.file:
+    path: "{{ hth_pipx_archive_destination_path }}"
+    owner: "{{ hth_pipx_archive_destination_path_owner }}"
+    group: "{{ hth_pipx_archive_destination_path_group }}"
+    mode: "{{ hth_pipx_archive_destination_path_mode }}"
+    state: directory
+
+- ansible.builtin.include_tasks: download.yml
+  loop: "{{ pipx.install.archive.versions }}"
+  loop_control:
+    loop_var: archive
+  when:
+    - archive.remove is undefined or not archive.remove
+
+- name: "HTH | PipX | Remove version"
+  ansible.builtin.file:
+    path: "{{ hth_pipx_archive_destination_path }}/{{ archive.version }}"
+    state: absent
+  loop: "{{ pipx.install.archive.versions }}"
+  loop_control:
+    loop_var: archive
+  when:
+    - archive.remove is defined and archive.remove
+
+- name: "HTH | PipX | Set default version path"
+  ansible.builtin.set_fact:
+    hth_pipx_default_version_path: "{{ hth_pipx_archive_destination_path }}/{{ pipx.install.archive.default }}/pipx.pyz"
+
+- name: "HTH | PipX | Stat default version path"
+  ansible.builtin.stat:
+    path: "{{ hth_pipx_default_version_path }}"
+  register: hth_pipx_default_version_path_stat
+
+- name: "HTH | PipX | Verify default version exists"
+  ansible.builtin.fail:
+    msg: "Requested default version was not found at {{ hth_pipx_default_version_path }}!"
+  when:
+    - not hth_pipx_default_version_path_stat.stat.exists
+
+- name: "HTH | PipX | Construct default execution wrapper"
+  ansible.builtin.copy:
+    dest: "{{ hth_pipx_archive_destination_path }}/default"
+    content: |
+      #!/bin/bash
+      python3 {{ hth_pipx_archive_destination_path }}/{{ pipx.install.archive.default }}/pipx.pyz "$@"
+  when:
+    - pipx.install.archive.default is defined
+    - pipx.install.archive.default
+
+- name: "HTH | PipX | Add default version to path"
+  ansible.builtin.file:
+    src: "{{ hth_pipx_archive_destination_path }}/default"
+    dest: "{{ hth_pipx_default_artifact_link_path }}"
+    owner: "root"
+    group: "root"
+    mode: 0755
+    state: link
+  when:
+    - pipx.install.archive.default is defined
+    - pipx.install.archive.default
