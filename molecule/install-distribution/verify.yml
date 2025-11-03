@@ -1,0 +1,16 @@
+---
+- name: Verify
+  hosts: all
+  tasks:
+  - name: Ensure pipx is available
+    command: pipx --version
+
+  - name: Ensure package installed correctly
+    command: manly --version
+    register: manly_version
+    changed_when: false
+
+  - name: Ensure package version matches requested version
+    fail:
+      msg: "'manly' version {{ manly_version.stdout }} is incorrect"
+    when: "{{ '0.4.1' not in manly_version.stdout }}"

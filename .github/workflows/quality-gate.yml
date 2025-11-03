@@ -1,0 +1,39 @@
+name: quality-gate
+
+on:
+  # allow manual triggering of action
+  workflow_dispatch:
+
+  # Allow other workflows to invoke this workflow
+  workflow_call:
+
+  pull_request:
+    branches:
+      - "main"
+
+  push:
+    tags:
+      - '*'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
+    - name: Install Molecule
+      run: |
+        pip install -U pip setuptools wheel
+        pip install ansible ansible-lint molecule molecule-plugins[docker]
+
+    # Ubuntu 24.04 has outdated pipx version causing global install to fail
+    # - name: Test distribution install
+    #   run: molecule test -s install-distribution
+
+    - name: Test archive install
+      run: molecule  test -s install-archive
