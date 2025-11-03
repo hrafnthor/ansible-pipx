@@ -1,6 +1,6 @@
 - name: "HTH | PipX | Determine if version is already present"
   ansible.builtin.set_fact:
-    hth_pipx_version_present: "{{ archive.version in hth_pipx_version.stdout }}"
+    hth_pipx_version_present: "{{ hth_pipx_exists and archive.version in hth_pipx_current_version.stdout }}"
 
 - name: "HTH | Pipx | Set version extraction path"
   ansible.builtin.set_fact:

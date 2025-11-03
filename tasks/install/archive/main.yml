@@ -1,7 +1,19 @@
+- name: "HTH | PipX | Check for pipx existence"
+  command: "command -v pipx"
+  register: hth_pipx_existence_check
+  changed_when: false
+  failed_when: false
+
+- name: "HTH | PipX | Register pipx existence"
+  set_fact:
+    hth_pipx_exists: "{{ hth_pipx_existence_check.rc == 0 }}"
+
 - name: "HTH | PipX | Check for current version"
   ansible.builtin.command: pipx --version
-  ignore_errors: true
-  register: hth_pipx_version
+  changed_when: false
+  register: hth_pipx_current_version
+  when:
+    - hth_pipx_exists
 
 - name: "HTH | PipX | Ensure program extraction path"
   ansible.builtin.file:
