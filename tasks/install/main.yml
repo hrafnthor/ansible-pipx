@@ -1,3 +1,8 @@
+- name: "HTH | PipX | Install python dependencies"
+  ansible.builtin.package:
+    name: "{{ hth_pipx_default_python_venv_package }}"
+    state: latest
+
 - name: "HTH | PipX | Install via distribution package manager"
   ansible.builtin.include_tasks: distribution/main.yml
   when:

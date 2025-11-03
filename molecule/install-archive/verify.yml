@@ -1,0 +1,23 @@
+---
+- name: Verify
+  hosts: all
+  tasks:
+  - name: Ensure pipx is available
+    command: pipx --version
+    register: pipx_version
+    changed_when: false
+
+  - name: Ensure pipx version matches requested default
+    fail:
+      msg: "pipx version {{ pipx_version.stdout }} is incorrect"
+    when: pipx_version.stdout != "1.8.0"
+
+  - name: Ensure package installed correctly
+    command: manly --version
+    register: manly_version
+    changed_when: false
+
+  - name: Ensure package version matches requested version
+    fail:
+      msg: "'manly' version {{ manly_version.stdout }} is incorrect"
+    when: "{{ '0.4.1' not in manly_version.stdout }}"

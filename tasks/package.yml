@@ -1,13 +1,7 @@
-- name: "HTH | PipX | Install package globally"
-  ansible.builtin.command: |
-    pipx install \
-    --global \
-    {{ '--force' if (package.force is defined and package.force) else '' }} \
-    {{ package.name + '==' + package.version if (package.version is defined) else package.name }}
-  when:
-    - package.remove is undefined or not package.remove
-
-- name: "HTH | PipX | Uninstall package globally"
-  ansible.builtin.command: "pipx uninstall --global {{ package.name }}"
-  when:
-    - package.remove is defined and package.remove
+- name: "HTH | PipX | Manage package globally"
+  community.general.pipx:
+    name: "{{ package.name + '==' + package.version if (package.version is defined) else omit }}"
+    state: "{{ 'absent' if (package.remove is defined and package.remove) else 'present' if (package.version is defined) else 'latest' }}"
+    executable: "{{ pipx.packages.executable | default(omit) }}"
+    force: "{{ package.force | default('false') }}"
+    global: true
