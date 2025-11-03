@@ -12,3 +12,6 @@ hth_pipx_archive_destination_path_mode: "0755"
 
 # Default path to symlink default pipx version to
 hth_pipx_default_artifact_link_path: "/usr/bin/pipx"
+
+# Default name for python-venv package.
+hth_pipx_default_python_venv_package: "python3.12-venv"
