@@ -8,9 +8,16 @@ This role was created out of my own frustration with needing to use `pipx` for i
 
 If your platforms have an up to date version of `pipx` in the native package manager, just go with that rather than this role! Alternatively you can use the `pipx.install.distribution` block to define the installation.
 
-*Attention:* Installing pipx via the archive method will make the community.general.pipx Ansible package not function properly since by default it requires python -m pipx to work, which will not work using the pipx.pyz file. This can be remedied by passing the path of the pipx executable (by default placed at /usr/bin/pipx) created by this role to the executable parameter of the community.general.pipx role see docs.
+**Attention**:
 
-*Attention* This role currently only supports distribution installation for `Debian` based distributions.
+Installing `pipx` via the archive method will make the `community.general.pipx` Ansible package not function properly since by default it requires `python -m pipx` to work, which will not work using the `pipx.pyz` file.
+
+This can be remedied by passing the path of the pipx executable (by default placed at `/usr/bin/pipx`) created by this role to the `executable` parameter of the `community.general.pipx` role [see docs](https://docs.ansible.com/ansible/latest/collections/community/general/pipx_module.html#parameter-executable).
+
+
+**Attention**:
+
+This role currently only supports distribution installation for `Debian` based distributions.
 
 ### Requirements:
 
