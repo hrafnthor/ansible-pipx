@@ -4,16 +4,11 @@ An Ansible role for installing the Python packaging tool [pipx](https://github.c
 
 ### Notes & limitations:
 
-This role was created out of my own frustration with needing to use `pipx` for installing various tools on a global level but not really finding a good reproducible way to install `pipx` it self on my preferred platform.
-
-If your platforms have an up to date version of `pipx` in the native package manager, just go with that rather than this role! Alternatively you can use the `pipx.install.distribution` block to define the installation.
-
 **Attention**:
 
 Installing `pipx` via the archive method will make the `community.general.pipx` Ansible package not function properly since by default it requires `python -m pipx` to work, which will not work using the `pipx.pyz` file.
 
 This can be remedied by passing the path of the pipx executable (by default placed at `/usr/bin/pipx`) created by this role to the `executable` parameter of the `community.general.pipx` role [see docs](https://docs.ansible.com/ansible/latest/collections/community/general/pipx_module.html#parameter-executable).
-
 
 **Attention**:
 
