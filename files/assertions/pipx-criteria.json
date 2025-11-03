@@ -84,33 +84,44 @@
         },
         "packages":
         {
-            "type": "array",
-            "items":
+            "type": "object",
+            "properties":
             {
-                "type": "object",
-                "properties":
+                "executable":
                 {
-                    "name":
-                    {
-                        "$ref": "#/definitions/non-empty-string"
-                    },
-                    "version":
-                    {
-                        "$ref": "#/definitions/non-empty-string"
-                    },
-                    "remove":
-                    {
-                        "type": "boolean"
-                    },
-                    "force":
-                    {
-                        "type": "boolean"
-                    }
+                    "$ref": "#/definitions/non-empty-string"
                 },
-                "required":
-                [
-                    "name"
-                ]
+                "global":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "name":
+                            {
+                                "$ref": "#/definitions/non-empty-string"
+                            },
+                            "version":
+                            {
+                                "$ref": "#/definitions/non-empty-string"
+                            },
+                            "remove":
+                            {
+                                "type": "boolean"
+                            },
+                            "force":
+                            {
+                                "type": "boolean"
+                            }
+                        },
+                        "required":
+                        [
+                            "name"
+                        ]
+                    }
+                }
             }
         }
     },

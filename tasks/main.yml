@@ -12,10 +12,11 @@
   when:
     - pipx.install is defined
 
-- name: "HTH | PipX | Manage package"
+- name: "HTH | PipX | Manage global package"
   ansible.builtin.include_tasks: package.yml
-  loop: "{{ pipx.packages }}"
+  loop: "{{ pipx.packages.global }}"
   loop_control:
     loop_var: package
   when:
     - pipx.packages is defined
+    - pipx.packages.global is defined
