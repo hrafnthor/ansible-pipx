@@ -12,10 +12,6 @@
   when:
     - pipx.install is defined
 
-- name: "HTH | PipX | Ensure global scope"
-  ansible.builtin.command: pipx ensurepath --global
-  when:
-
 - name: "HTH | PipX | Manage package"
   ansible.builtin.include_tasks: package.yml
   loop: "{{ pipx.packages }}"
