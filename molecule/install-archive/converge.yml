@@ -3,21 +3,6 @@
   hosts: all
   become: true
   gather_facts: true
-  vars:
-    pipx:
-      install:
-        archive:
-          default: "1.8.0"
-          versions:
-            - version: "1.8.0"
-              checksum: "sha256:b9eabd835dffe0677e36bd99416fc9837c592bd8c079235379bed3dfe043c601"
-      packages:
-        executable: "/usr/bin/pipx"
-        global:
-          - name: manly
-            version: "0.4.1"
-            remove: false
-            force: false
   pre_tasks:
     - name: Update apt cache for Debian
       apt:

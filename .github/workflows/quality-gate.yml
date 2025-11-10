@@ -36,4 +36,4 @@ jobs:
     #   run: molecule test -s install-distribution
 
     - name: Test archive install
-      run: molecule  test -s install-archive
+      run: molecule  test --scenario-name install-archive -- --extra-vars "@../../molecule/install-archive/input-data.yml"
