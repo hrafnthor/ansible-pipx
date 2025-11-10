@@ -63,7 +63,6 @@
       python3 {{ hth_pipx_archive_destination_path }}/{{ pipx.install.archive.default }}/pipx.pyz "$@"
   when:
     - pipx.install.archive.default is defined
-    - pipx.install.archive.default
 
 - name: "HTH | PipX | Add default version to path"
   ansible.builtin.file:
@@ -75,4 +74,3 @@
     state: link
   when:
     - pipx.install.archive.default is defined
-    - pipx.install.archive.default
