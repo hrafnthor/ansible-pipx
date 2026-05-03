@@ -17,8 +17,8 @@ platforms:
 
 provisioner:
   name: ansible
-  # env:
-  #   ANSIBLE_VERBOSITY: 2
+  env:
+     ANSIBLE_VERBOSITY: 2
 
 verifier:
   name: ansible

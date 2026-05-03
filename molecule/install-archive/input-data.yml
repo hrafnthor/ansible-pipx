@@ -12,3 +12,4 @@ pipx:
         version: "0.4.1"
         remove: false
         force: false
+      - name: uv

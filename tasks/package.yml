@@ -1,6 +1,6 @@
 - name: "HTH | PipX | Manage package globally"
   community.general.pipx:
-    name: "{{ package.name + '==' + package.version if (package.version is defined) else omit }}"
+    name: "{{ package.name + '==' + package.version if (package.version is defined) else package.name }}"
     state: "{{ 'absent' if (package.remove is defined and package.remove) else 'present' if (package.version is defined) else 'latest' }}"
     executable: "{{ pipx.packages.executable | default(omit) }}"
     force: "{{ package.force | default('false') }}"
