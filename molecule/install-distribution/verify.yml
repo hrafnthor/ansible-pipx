@@ -13,4 +13,4 @@
   - name: Ensure package version matches requested version
     fail:
       msg: "'manly' version {{ manly_version.stdout }} is incorrect"
-    when: "{{ '0.4.1' not in manly_version.stdout }}"
+    when: "'0.4.1' not in manly_version.stdout"

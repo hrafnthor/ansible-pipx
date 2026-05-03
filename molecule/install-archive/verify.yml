@@ -12,12 +12,23 @@
       msg: "pipx version {{ pipx_version.stdout }} is incorrect"
     when: pipx_version.stdout != "1.8.0"
 
-  - name: Ensure package installed correctly
+  - name: Check versioned package version code
     command: manly --version
     register: manly_version
     changed_when: false
 
-  - name: Ensure package version matches requested version
+  - name: Ensure versioned package version matches requested version
     fail:
       msg: "'manly' version {{ manly_version.stdout }} is incorrect"
-    when: "{{ '0.4.1' not in manly_version.stdout }}"
+    when: "'0.4.1' not in manly_version.stdout"
+
+  - name: Check non versioned package version code
+    command: uv --version
+    register: uv_version
+    changed_when: false
+    failed_when: false
+
+  - name: Ensure non versioned package was installed
+    fail:
+      msg: "'uv' was not installed"
+    when: uv_version.failed
